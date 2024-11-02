@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Manage Bids</title>
+  <style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f0f0f0;
+        margin: 0;
+        padding: 20px;
+    }
+
+    h1 {
+        color: #333;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+    th, td {
+        padding: 12px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+
+    th {
+        background-color: #007bff;
+        color: white;
+    }
+
+    tr:hover {
+        background-color: #f1f1f1;
+    }
+
+    select {
+        padding: 10px;
+        margin-bottom: 20px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    button {
+        padding: 10px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    button:hover {
+        background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+<h1>Bids List</h1>
+
+<form th:action="@{/admin/bids}" method="get">
+  <label for="sortBy">Sort by Status:</label>
+  <select name="sortBy" id="sortBy" onchange="this.form.submit()">
+    <option value="">Select</option>
+    <option value="Approved" th:selected="${sortBy == 'Approved'}">Approved</option>
+    <option value="Denied" th:selected="${sortBy == 'Denied'}">Denied</option>
+    <option value="Pending" th:selected="${sortBy == 'Pending'}">Pending</option>
+  </select>
+</form>
+
+<table>
+  <thead>
+  <tr>
+    <th>Bid ID</th>
+    <th>Item ID</th>
+    <th>Bidder ID</th>
+    <th>Bid Amount</th>
+    <th>Status</th>
+    <th>Actions</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="bid : ${bids}">
+    <td th:text="${bid.id}"></td>
+    <td th:text="${bid.itemId}"></td>
+    <td th:text="${bid.bidderId}"></td>
+    <td th:text="${bid.bidAmount}"></td>
+    <td th:text="${bid.status}"></td>
+    <td>
+      <form th:action="@{'/admin/bids/approve/' + ${bid.id}}" method="post" style="display:inline">
+        <button type="submit" th:disabled="${bid.status == 'Approved'}">Approve</button>
+      </form>
+      <form th:action="@{'/admin/bids/deny/' + ${bid.id}}" method="post" style="display:inline">
+        <button type="submit" th:disabled="${bid.status == 'Denied'}">Deny</button>
+      </form>
+    </td>
+  </tr>
+  </tbody>
+</table>
+</body>
+</html>

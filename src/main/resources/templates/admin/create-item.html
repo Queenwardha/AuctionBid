@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Create Item</title>
+</head>
+<body>
+<h1>Create New Item</h1>
+
+<!-- Display error message if it exists -->
+<div th:if="${error}" th:text="${error}" style="color: red;"></div>
+
+<form th:action="@{/admin/items}" method="post" th:object="${item}" enctype="multipart/form-data">
+  <label for="name">Name:</label>
+  <input type="text" th:field="*{name}" required/>
+
+  <label for="price">Price:</label>
+  <input type="number" th:field="*{price}" required/>
+
+  <label for="image">Photo:</label>
+  <input type="file" name="image" required/>
+
+  <button type="submit">Create Item</button>
+</form>
+</body>
+</html>

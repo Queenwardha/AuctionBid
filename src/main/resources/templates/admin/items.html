@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Manage Items</title>
+</head>
+<body>
+<h1>Items List</h1>
+<a th:href="@{/admin/items/new}">Add New Item</a>
+<table>
+  <thead>
+  <tr>
+    <th>Item ID</th>
+    <th>Name</th>
+    <th>Price</th>
+    <th>Photo</th>
+    <th>Actions</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="item : ${items}">
+    <td th:text="${item.id}"></td>
+    <td th:text="${item.name}"></td>
+    <td th:text="${item.price}"></td>
+    <td>
+      <img th:src="@{'/images/' + ${item.id}}" alt="Item Photo" width="50" height="50"/>
+    </td>
+    <td>
+      <a th:href="@{'/admin/items/edit/' + ${item.id}}">Edit</a> |
+      <a th:href="@{'/admin/items/delete/' + ${item.id}}" onclick="return confirm('Are you sure?')">Delete</a>
+    </td>
+  </tr>
+  </tbody>
+</table>
+</body>
+</html>
